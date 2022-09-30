@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { validateCreateBody, validateServerId } from './validations';
+import { validateBotsBody, validateServerId } from './validations';
 
 export const validateCreateRoute = (
   req: Request,
@@ -7,7 +7,7 @@ export const validateCreateRoute = (
   next: NextFunction
 ) => {
   const { params, body } = req;
-  const bodyValidationResult = validateCreateBody.validate(body);
+  const bodyValidationResult = validateBotsBody.validate(body);
   const paramsValidationResult = validateServerId.validate(params);
 
   if (paramsValidationResult.error || bodyValidationResult.error) {
