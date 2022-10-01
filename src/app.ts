@@ -10,7 +10,7 @@ import deleteRouter from './routes/deleteRoutes';
 
 const { PORT } = getConfig();
 
-const app = express();
+export const app = express();
 
 app.use(express.json());
 
@@ -18,4 +18,6 @@ app.use('/update/:serverId', updateRoutes);
 app.use('/delete/:serverId', deleteRouter);
 app.use('/create/:serverId', createRoutes);
 
-app.listen(PORT, () => console.log(`App up on port ${PORT}`));
+export const server = app.listen(PORT, () =>
+  console.log(`App up on port ${PORT}`)
+);
