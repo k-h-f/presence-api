@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 export const validateServerId = Joi.object({
-  serverId: Joi.number().valid().required()
+  serverId: Joi.number().valid().required().unsafe()
 });
 
 export const validateChannelUpdateBody = Joi.object({

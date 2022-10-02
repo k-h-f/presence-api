@@ -1,5 +1,6 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { getConfig } from '../src/config/getConfig';
+import { getConfig } from '../config/getConfig';
+import { Tables } from './constants';
 
 const { SUPABASE_KEY, SUPABASE_URL } = getConfig();
 
@@ -17,5 +18,13 @@ export class SupabaseService {
     }
 
     return this.supabaseService;
+  }
+
+  public async getBots(serverId: number) {
+    const result = await this.client
+      .from(Tables.MONITORING)
+      .select('bots')
+      .filter('serverId', 'eq', serverId);
+    return result.data;
   }
 }

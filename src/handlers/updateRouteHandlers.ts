@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import UpdateController from '../../controllers/updateController';
+import UpdateController from '../controllers/updateController';
 
 export const updateChannelHandler = async (req: Request, res: Response) => {
   const controller = new UpdateController();
