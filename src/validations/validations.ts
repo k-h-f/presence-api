@@ -12,7 +12,7 @@ export const validateBotsBody = Joi.object({
   bots: Joi.array().items(Joi.string().required()).required()
 });
 
-export const validateUpdateBotsBody = Joi.object({
-  bots: Joi.array().items(Joi.string().required()).required(),
-  channelId: Joi.number().valid().required()
+export const validateMainBody = Joi.object({
+  bots: Joi.array().items(Joi.string().required()).optional(),
+  channelId: Joi.number().valid().optional()
 });
