@@ -5,8 +5,11 @@ export const updateHandler = async (req: Request, res: Response) => {
   const controller = new UpdateController();
   const {
     params: { serverId },
-    body: { channelId, bots }
+    body: {
+      body: { channelId, bots }
+    }
   } = req;
+
   controller.postUpdate(serverId, channelId, bots);
   res.send(200);
 };

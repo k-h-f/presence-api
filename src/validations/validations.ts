@@ -5,6 +5,8 @@ export const validateServerId = Joi.object({
 });
 
 export const validateUpdateBody = Joi.object({
-  bots: Joi.array().items(Joi.string().required()).optional(),
-  channelId: Joi.number().valid().optional()
+  body: {
+    bots: Joi.array().items(Joi.string()).optional(),
+    channelId: Joi.number().valid().optional().unsafe()
+  }
 });

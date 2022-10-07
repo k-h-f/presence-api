@@ -26,18 +26,35 @@ export class SupabaseService {
 
   public async updateMonitoringRecord(
     serverId: string,
-    channelId?: number,
+    channelId?: string,
     bots?: string[]
   ) {
     const result: PostgrestResponse<Monitioring> = await this.client
       .from(Tables.MONITORING)
-      .select('bots,serverId')
-      .filter('serverId', 'eq', serverId);
+      .select('bots, serverId')
+      .eq('serverId', serverId);
 
-    if (!result.data && !result.error) {
+    if (!result.data?.length && !result.error) {
+      //Create a record then update
+      await this.client
+        .from(Tables.MONITORING)
+        .insert([{ serverId, channelId, bots }]);
+      return;
     }
 
-    const monitoringBots = result.data;
+    if (bots) {
+      await this.client
+        .from(Tables.MONITORING)
+        .update({ bots })
+        .eq('serverId', serverId);
+    }
+
+    if (channelId) {
+      await this.client
+        .from(Tables.MONITORING)
+        .update({ channelId: channelId })
+        .eq('serverId', serverId);
+    }
   }
 
   public async getMonitoring(serverId: string) {

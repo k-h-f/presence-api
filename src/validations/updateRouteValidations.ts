@@ -9,7 +9,7 @@ export const validateUpdate = (
   const { params, body } = req;
 
   const serverIdValidationResult = validateServerId.validate(params);
-  const validationResult = validateUpdateBody.validate(body);
+  const validationResult = validateUpdateBody.validate({ ...body });
 
   if (serverIdValidationResult.error || validationResult.error) {
     const message =
