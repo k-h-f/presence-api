@@ -6,6 +6,6 @@ interface Config {
 
 export const getConfig = (): Config => ({
   PORT: (process.env.PORT && parseInt(process.env.PORT)) || 4000,
-  SUPABASE_KEY: process.env.SUPABASE_KEY || '',
-  SUPABASE_URL: process.env.SUPABASE_URL || ''
+  SUPABASE_URL: process.env.SUPABASE_URL || '',
+  SUPABASE_KEY: process.env.SUPABASE_KEY || ''
 });

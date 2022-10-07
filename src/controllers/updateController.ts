@@ -1,6 +1,12 @@
+import { SupabaseService } from '../databaseService/supabaseService';
+
 class UpdateController {
-  async postUpdateChannel(serverId: number, channelId: number) {
-    return { message: `Channel Updated` };
+  async postUpdate(serverId: string, channelId?: string, bots?: string[]) {
+    SupabaseService.getService().updateMonitoringRecord(
+      serverId,
+      channelId,
+      bots
+    );
   }
 }
 

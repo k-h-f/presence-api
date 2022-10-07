@@ -1,16 +1,15 @@
 import { Request, Response } from 'express';
 import UpdateController from '../controllers/updateController';
 
-export const updateChannelHandler = async (req: Request, res: Response) => {
+export const updateHandler = async (req: Request, res: Response) => {
   const controller = new UpdateController();
   const {
     params: { serverId },
-    body: { channelId }
+    body: {
+      body: { channelId, bots }
+    }
   } = req;
 
-  const response = await controller.postUpdateChannel(
-    parseInt(serverId),
-    channelId
-  );
-  res.send(response);
+  controller.postUpdate(serverId, channelId, bots);
+  res.send(200);
 };

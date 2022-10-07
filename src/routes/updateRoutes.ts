@@ -1,13 +1,9 @@
 import { Router } from 'express';
-import { updateChannelHandler } from '../handlers/updateRouteHandlers';
-import {
-  validateUpdateBots,
-  validateUpdateChannel
-} from '../validations/updateRouteValidations';
+import { updateHandler } from '../handlers/updateRouteHandlers';
+import { validateUpdate } from '../validations/updateRouteValidations';
 
 const updateRouter = Router({ mergeParams: true });
 
-updateRouter.post('/channel', validateUpdateChannel, updateChannelHandler);
-updateRouter.post('/bots', validateUpdateBots, updateChannelHandler);
+updateRouter.post('/', validateUpdate, updateHandler);
 
 export default updateRouter;

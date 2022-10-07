@@ -1,14 +1,18 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import {
+  createClient,
+  PostgrestResponse,
+  SupabaseClient
+} from '@supabase/supabase-js';
 import { getConfig } from '../config/getConfig';
 import { Tables } from './constants';
-
-const { SUPABASE_KEY, SUPABASE_URL } = getConfig();
+import { Monitioring } from './dto';
 
 export class SupabaseService {
   private static supabaseService: SupabaseService;
   private client: SupabaseClient;
 
   private constructor() {
+    const { SUPABASE_KEY, SUPABASE_URL } = getConfig();
     this.client = createClient(SUPABASE_URL, SUPABASE_KEY);
   }
 
@@ -20,11 +24,45 @@ export class SupabaseService {
     return this.supabaseService;
   }
 
-  public async getBots(serverId: number) {
-    const result = await this.client
+  public async updateMonitoringRecord(
+    serverId: string,
+    channelId?: string,
+    bots?: string[]
+  ) {
+    const result: PostgrestResponse<Monitioring> = await this.client
       .from(Tables.MONITORING)
-      .select('bots')
-      .filter('serverId', 'eq', serverId);
-    return result.data;
+      .select('bots, serverId')
+      .eq('serverId', serverId);
+
+    if (!result.data?.length && !result.error) {
+      //Create a record then update
+      await this.client
+        .from(Tables.MONITORING)
+        .insert([{ serverId, channelId, bots }]);
+      return;
+    }
+
+    if (bots) {
+      await this.client
+        .from(Tables.MONITORING)
+        .update({ bots })
+        .eq('serverId', serverId);
+    }
+
+    if (channelId) {
+      await this.client
+        .from(Tables.MONITORING)
+        .update({ channelId: channelId })
+        .eq('serverId', serverId);
+    }
+  }
+
+  public async getMonitoring(serverId: string) {
+    const result: PostgrestResponse<Monitioring> = await this.client
+      .from(Tables.MONITORING)
+      .select('serverId, channelId, bots')
+      .like('serverId', serverId);
+
+    return result.data ?? [];
   }
 }
