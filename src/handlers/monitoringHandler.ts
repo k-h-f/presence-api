@@ -1,12 +1,14 @@
 import { Request, Response } from 'express';
 import MonitoringController from '../controllers/monitoringController';
 
-export const monitoringHandler = (req: Request, res: Response) => {
-  const {
-    params: { serverId },
-    body: { channelId, bots }
-  } = req;
+export const monitoringHandler = async (req: Request, res: Response) => {
+  const { params } = req;
+
+  const serverId = params.serverId;
 
   const controller = new MonitoringController();
-  controller.update(parseInt(serverId), channelId, bots);
+  const monitoring = (await controller.getMonitoring(serverId)).find(
+    (record) => record.serverId === serverId
+  );
+  res.send(monitoring ?? { message: 'Server not found' });
 };

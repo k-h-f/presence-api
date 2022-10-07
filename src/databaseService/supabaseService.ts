@@ -25,8 +25,8 @@ export class SupabaseService {
   }
 
   public async updateMonitoringRecord(
-    serverId: number,
-    channelId?: string,
+    serverId: string,
+    channelId?: number,
     bots?: string[]
   ) {
     console.log('serverId!!', serverId);
@@ -42,25 +42,12 @@ export class SupabaseService {
     console.log('results');
   }
 
-  public async updateBots(serverId: number, bots: string[]) {
-    console.log('serverId!!', serverId);
+  public async getMonitoring(serverId: string) {
     const result: PostgrestResponse<Monitioring> = await this.client
       .from(Tables.MONITORING)
-      .select('bots,serverId')
-      .filter('serverId', 'eq', serverId);
+      .select('serverId, channelId, bots')
+      .like('serverId', serverId);
 
-    if (!result.data && !result.error) {
-    }
-
-    const monitoringBots = result.data;
-    console.log('results');
-  }
-
-  public async getBots(serverId: number) {
-    const result = await this.client
-      .from(Tables.MONITORING)
-      .select('bots')
-      .filter('serverId', 'eq', serverId);
-    return result.data;
+    return result.data ?? [];
   }
 }

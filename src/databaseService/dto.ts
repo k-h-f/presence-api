@@ -1,5 +1,5 @@
 export interface Monitioring {
-  severId: string;
+  serverId: string;
   channelId: string;
   bots: string[];
 }
