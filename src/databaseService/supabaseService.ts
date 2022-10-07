@@ -29,7 +29,6 @@ export class SupabaseService {
     channelId?: number,
     bots?: string[]
   ) {
-    console.log('serverId!!', serverId);
     const result: PostgrestResponse<Monitioring> = await this.client
       .from(Tables.MONITORING)
       .select('bots,serverId')
@@ -39,7 +38,6 @@ export class SupabaseService {
     }
 
     const monitoringBots = result.data;
-    console.log('results');
   }
 
   public async getMonitoring(serverId: string) {
