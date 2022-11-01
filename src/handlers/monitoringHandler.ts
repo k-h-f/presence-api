@@ -10,5 +10,5 @@ export const monitoringHandler = async (req: Request, res: Response) => {
   const monitoring = (await controller.getMonitoring(serverId)).find(
     (record) => record.serverId === serverId
   );
-  res.send(monitoring ?? { message: 'Server not found' });
+  res.send(monitoring ?? { message: 'Server not found', bots: [] });
 };
