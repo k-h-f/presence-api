@@ -12,6 +12,10 @@ const { PORT } = getConfig();
 export const app = express();
 
 app.use(express.json());
+app.use((req, _res, next) => {
+  console.log(JSON.stringify(req, undefined, 4));
+  next();
+});
 
 app.use('/', defaultRoutes);
 app.use('/update/:serverId', updateRoutes);
