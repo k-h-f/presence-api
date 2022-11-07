@@ -13,7 +13,7 @@ export const app = express();
 
 app.use(express.json());
 app.use((req, _res, next) => {
-  console.log(JSON.stringify(req, undefined, 4));
+  console.log({ url: req.url, body: req.body, reqObj: req });
   next();
 });
 
